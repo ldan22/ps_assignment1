@@ -16,6 +16,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using LayersOnWeb.Mapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.StaticFiles;
+using System.Net.Mime;
 
 namespace LayersOnWeb
 {
@@ -46,11 +50,13 @@ namespace LayersOnWeb
             services.AddScoped<IShowMapper, ShowMapper>();
             services.AddScoped<IShowModelDtoMapper, ShowModelDtoMapper>();
             services.AddScoped<IShowService, ShowService>();
+            services.AddScoped<IShowValidator, ShowValidator>();
 
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<ITicketMapper, TicketMapper>();
             services.AddScoped<ITicketModelDtoMapper, TicketModelDtoMapper>();
             services.AddScoped<ITicketService, TicketService>();
+            services.AddScoped<ITicketValidator, TicketValidator>();
 
             services.AddScoped<IExportTicketsService, ExportTicketsService>();
 
@@ -79,9 +85,18 @@ namespace LayersOnWeb
 
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
-            
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings[".csv"] = "text/csv";
+            provider.Mappings[".xml"] = "text/xml";
+
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = provider
+            });
+
+
             app.UseRouting();
 
             app.UseAuthentication();

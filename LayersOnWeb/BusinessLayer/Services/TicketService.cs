@@ -14,21 +14,34 @@ namespace BusinessLayer
         private readonly ITicketRepository ticketRepository;
         private readonly IShowRepository showRepository;
         private readonly ITicketMapper ticketMapper;
-
-        public TicketService(ITicketRepository ticketRepository, ITicketMapper ticketMapper, IShowRepository showRepository)
+        private readonly ITicketValidator ticketValidator;
+        public TicketService(ITicketRepository ticketRepository, ITicketMapper ticketMapper, IShowRepository showRepository, ITicketValidator ticketValidator)
         {
             this.ticketRepository = ticketRepository;
             this.ticketMapper = ticketMapper;
             this.showRepository = showRepository;
+            this.ticketValidator = ticketValidator;
         }
 
         public void CreateTicket(TicketModel ticket)
         {
+            if(!ticketValidator.validate(ticket))
+            {
+                throw new ModelValidationException();
+            }
+
             int numOfTickets = ticketRepository.CountTicketsByShowId(ticket.Show.Id);
             var show = showRepository.GetById(ticket.Show.Id);
             if(numOfTickets >= show.NumberOfTickets)
             {
                 throw new TicketsOverflowException("Number of tickets exceeded.");
+            }
+
+            var sameTicket = ticketRepository.GetBySeat(ticket.SeatRow, ticket.SeatNumber);
+
+            if(sameTicket != null && sameTicket.ShowId == ticket.Show.Id)
+            {
+                throw new ModelValidationException("Ticket for show on this seat already exists");
             }
 
             var ticketEntity = ticketMapper.Map(ticket);
@@ -38,6 +51,10 @@ namespace BusinessLayer
 
         public void UpdateTicket(TicketModel ticket)
         {
+            if (!ticketValidator.validate(ticket))
+            {
+                throw new ModelValidationException();
+            }
             var show = showRepository.GetById(ticket.Show.Id);
             var ticketEntity = ticketMapper.Map(ticket);
             ticketEntity.Show = show;

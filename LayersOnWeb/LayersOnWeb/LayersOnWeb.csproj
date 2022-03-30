@@ -32,8 +32,4 @@
     <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Static\" />
-  </ItemGroup>
 </Project>

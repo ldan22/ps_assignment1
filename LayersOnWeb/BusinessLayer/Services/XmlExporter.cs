@@ -14,9 +14,10 @@ namespace BusinessLayer
     {
         public string export(List<T> exportData, string path)
         {
-            TextWriter txtWriter = new StreamWriter(path + ".xml");
+            TextWriter txtWriter = new StreamWriter(path);
             XmlSerializer xs = new XmlSerializer(typeof(List<T>));
             xs.Serialize(txtWriter, exportData);
+            
             return path;
         }
     }

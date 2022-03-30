@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using LayersOnWeb.Mapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Net.Http.Headers;
+using System.IO;
+using System.Text;
 
 namespace LayersOnWeb.Controllers
 {
@@ -62,9 +66,10 @@ namespace LayersOnWeb.Controllers
 
         [HttpGet("{id}/tickets/export")]
         //[Authorize]
-        public string ExportTickets([FromQuery(Name = "format")] string format, int id)
+        public VirtualFileResult ExportTickets([FromQuery(Name = "format")] string format, int id)
         {
-            return exportTicketsService.ExportTicketsForShow(format, id);
+            string filePath = exportTicketsService.ExportTicketsForShow(format, id);
+            return new VirtualFileResult(@"\" + filePath, "text/" + format);
         }
 
         [HttpPost]

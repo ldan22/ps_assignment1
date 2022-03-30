@@ -20,10 +20,9 @@ namespace BusinessLayer
             lines.Add(header);
             var valueLines = exportData.Select(row => string.Join(",", header.Split(',').Select(a => row.GetType().GetProperty(a).GetValue(row, null))));
             lines.AddRange(valueLines);
-            FileInfo file = new FileInfo(path + ".csv");
+            FileInfo file = new FileInfo(path);
             file.Directory.Create();
-            //File.Create(@"D:\Facultate\PS\assignment1\LayersOnWeb\LayersOnWeb\\" + path + ".csv");
-            File.WriteAllLines(path + ".csv", lines.ToArray());
+            File.WriteAllLines(path, lines.ToArray());
             return path;
         } 
     }

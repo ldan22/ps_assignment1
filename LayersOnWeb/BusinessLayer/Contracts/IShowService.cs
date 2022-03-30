@@ -13,7 +13,6 @@ namespace BusinessLayer.Contracts
         List<ShowModel> GetAllShows();
         ShowModel GetShowById(int id);
         void DeleteShowById(int id);
-
         List<TicketModel> GetTickets(int showId);
     }
 }

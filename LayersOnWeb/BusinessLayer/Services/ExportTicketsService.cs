@@ -20,22 +20,31 @@ namespace BusinessLayer
         public string ExportTicketsForShow(string format, int showId)
         {
             List<TicketModel> tickets = showService.GetTickets(showId);
-            string fileName = @"D:\Facultate\PS\assignment1\LayersOnWeb\LayersOnWeb\Static\Tickets\Show#" + showId;
-            
-            FileExporter<TicketModel> exporter = getExporter(format);
-            return exporter.export(tickets, fileName);
+            List<TicketExportModel> ticketExportModels = new List<TicketExportModel>();
+            tickets.ForEach(t => ticketExportModels.Add(new TicketExportModel
+            {
+                Id = t.Id,
+                SeatNumber = t.SeatNumber,
+                SeatRow = t.SeatRow,
+            }));
+            string fileName = @"Static\Show_" + showId + "." + format;
+            string root = @"wwwroot\";
+            FileExporter<TicketExportModel> exporter = getExporter(format);
+
+            exporter.export(ticketExportModels, root + fileName);
+            return fileName;
         }
         
-        private FileExporter<TicketModel> getExporter(string format)
+        private FileExporter<TicketExportModel> getExporter(string format)
         {
             if (format.ToLower() == "csv")
             {
-                return new CsvExporter<TicketModel>();
+                return new CsvExporter<TicketExportModel>();
             }
 
             if (format.ToLower() == "xml")
             {
-                return new XmlExporter<TicketModel>();
+                return new XmlExporter<TicketExportModel>();
             }
 
             throw new InvalidExportFormat();
