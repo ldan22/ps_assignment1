@@ -29,7 +29,7 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public IEnumerable<ShowDto> Get()
         {
             var result = new List<ShowDto>();
@@ -41,7 +41,7 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public ShowDto GetById(int id)
         {
             var show = showService.GetShowById(id);
@@ -53,7 +53,7 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpGet("{id}/tickets")]
-        //[Authorize]
+        [Authorize]
         public List<TicketDto> GetTickets(int id)
         {
             var results = new List<TicketDto>();
@@ -65,7 +65,7 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpGet("{id}/tickets/export")]
-        //[Authorize]
+        [Authorize]
         public VirtualFileResult ExportTickets([FromQuery(Name = "format")] string format, int id)
         {
             string filePath = exportTicketsService.ExportTicketsForShow(format, id);
@@ -73,21 +73,21 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public void Post(ShowDto showDto)
         {
             showService.CreateShow(showMapper.Map(showDto));
         }
 
         [HttpPut("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public void Put(int id, ShowDto showDto)
         {
             showService.UpdateShow(showMapper.Map(showDto));
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public void Delete(int id)
         {
             showService.DeleteShowById(id);

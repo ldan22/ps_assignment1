@@ -20,7 +20,7 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public IEnumerable<TicketDto> Get()
         {
             var result = new List<TicketDto>();
@@ -32,7 +32,7 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public TicketDto GetById(int id)
         {
             var ticket = ticketService.GetTicketById(id);
@@ -44,21 +44,21 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         public void Post(TicketDto ticketDto)
         {
             ticketService.CreateTicket(ticketMapper.Map(ticketDto));
         }
 
         [HttpPut("{id}")]
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         public void Put(int id, TicketDto ticketDto)
         {
             ticketService.UpdateTicket(ticketMapper.Map(ticketDto));
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         public void Delete(int id)
         {
             ticketService.DeleteTicketById(id);

@@ -87,7 +87,7 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpPost("Cashier/Register")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<UserModel> RegisterCashier([FromBody] CreateCashierDto cashier)
         {
             var result = await _userService.RegisterCashier(new RegisterUserModel { 
@@ -99,7 +99,7 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpPut("Cashier/{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<UserModel> RegisterCashier(Guid id, [FromBody] UserModel cashier)
         {
             var result = await _userService.UpdateCashier(cashier);
@@ -107,21 +107,21 @@ namespace LayersOnWeb.Controllers
         }
 
         [HttpGet("Cashier")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<List<UserModel>> GetCashiers()
         {
             return await _userService.GetCashiers();
         }
 
         [HttpGet("Cashier/{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<UserModel> GetCashierById(Guid id)
         {
             return await _userService.GetCashierById(id);
         }
 
         [HttpDelete("Cashier/{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task DeleteCashier(Guid id)
         {
            await _userService.DeleteCashier(id);
