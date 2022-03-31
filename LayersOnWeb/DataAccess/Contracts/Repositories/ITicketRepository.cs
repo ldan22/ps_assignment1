@@ -11,6 +11,6 @@ namespace DataAccess.Contracts
         List<Ticket> GetTicketsByShowId(int id);
         int CountTicketsByShowId(int id);
 
-        Ticket GetBySeat(int seatRow, int seatNumber);
+        Ticket GetBySeatAndShow(int seatRow, int seatNumber, int showId);
     }
 }

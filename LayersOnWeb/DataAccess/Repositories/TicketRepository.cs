@@ -23,9 +23,9 @@ namespace DataAccess
             return dbSet.Count(t => t.ShowId == id);
         }
 
-        public Ticket GetBySeat(int seatRow, int seatNumber)
+        public Ticket GetBySeatAndShow(int seatRow, int seatNumber, int showId)
         {
-            return dbSet.Single(t => t.SeatNumber == seatNumber && t.SeatRow == seatRow);
+            return dbSet.Single(t => t.SeatNumber == seatNumber && t.SeatRow == seatRow && t.ShowId == showId);
         }
     }
 }

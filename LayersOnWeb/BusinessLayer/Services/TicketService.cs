@@ -37,9 +37,9 @@ namespace BusinessLayer
                 throw new TicketsOverflowException("Number of tickets exceeded.");
             }
 
-            var sameTicket = ticketRepository.GetBySeat(ticket.SeatRow, ticket.SeatNumber);
+            var sameTicket = ticketRepository.GetBySeatAndShow(ticket.SeatRow, ticket.SeatNumber, ticket.Show.Id);
 
-            if(sameTicket != null && sameTicket.ShowId == ticket.Show.Id)
+            if(sameTicket != null)
             {
                 throw new ModelValidationException("Ticket for show on this seat already exists");
             }
